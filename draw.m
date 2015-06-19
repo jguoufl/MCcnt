@@ -5,7 +5,7 @@ set(gca, 'fontsize',[24], 'linewidth',[2]);
 set(gca,'position',[0.20 0.2 0.70 0.7]);
 ylabel('E (eV)','fontsize',[24]);
 xlabel('Je(A/eV)','fontsize',[24]);
-xlim([0 2e-4]);
+%xlim([0 2e-4]);
 
 % snapshot of carrier distribution at the end of the simulation
 %load particles

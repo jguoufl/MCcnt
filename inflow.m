@@ -1,10 +1,8 @@
-function [Eps_in Epd_in Ne_s Ne_d]=inflow(XI, E1, Emesh, mu_s, mu_d, Ne_s, Ne_d)
-
+function [Eps_in Epd_in Ne_s Ne_d xp vp Ektp]=inflow(XI,E1,Emesh,mu_s,mu_d,Ne_s,Ne_d,xp,vp,Ektp)
 %% Input: Emesh: energy mesh in Monte carlo
 %%        E1: the first conduction subband edge
 %%        Ne_s: source injection, [] for the 1st step, residue from the previous step otherwise
 %%        Ne_d: drain injection
-global xp vp Ektp
 global kBT q hbar
 global t_step qsup Egh1 vF
 

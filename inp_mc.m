@@ -4,9 +4,7 @@ global q kBT hbar
 global n t_step qsup Ntran Nstdy Degflag Balflag    % MC simulation parameters 
 global Nkf Nxf                                      % E, k, and x grid
 
-%%% output global
-global Np_max Ektp xp vp Ex vx Nop_x kfd fdn  % the output using global parameters
-global Evec ga_ap ga_op ga_tot hw tau_IR      % the output of rate.m
+global Evec ga_ap ga_op ga_tot hw tau_IR     % the output of rate.m
 
 %%%%%% constants
 q=1.6e-19;
@@ -21,7 +19,7 @@ hw=0.20;            % the optical phonon energy in eV
 tau_IR=1*1e15;    % the spontaneous IR emission time
 t_step=0.75*1e-15; % the time step in S
 qsup=0.001;   % super-particle charge in e
-Ntran=100; Nstdy=900;   % No. of transient and steady state time steps
+Ntran=100; Nstdy=200;   % No. of transient and steady state time steps
 
 %%%%% the grid for collecting carrier statistics
 Degflag=1;  % 1 for treating Pauli exclusion, 0 for not treating

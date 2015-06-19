@@ -1,6 +1,5 @@
-function []=scattering(XI, E1, flags, fd, dwire)
-
-global xp vp Ektp
+function [xp vp Ektp]=scattering(XI, E1, flags, fd, dwire, xp, vp, Ektp)
+    
 global kBT q hbar
 global t_step qsup Egh1 vF
 global Evec ga_ap ga_op ga_tot tau_IR hw            % scattering rate

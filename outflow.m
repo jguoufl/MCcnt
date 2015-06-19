@@ -1,7 +1,6 @@
 %%% outflow from the device to the contacts
 
-function [Eps_out Epd_out]=outflow(E1,flags)
-global xp vp Ektp
+function [Eps_out Epd_out xp vp Ektp]=outflow(E1,flags,xp,vp,Ektp)
 OutSflag=flags.OutSflag;                                      % the velocity flag of the carriers that exit the source
 OutDflag=flags.OutDflag;                                     % the velocity flag of the carriers that exit the drain 
 IRflag=flags.IRflag; 
