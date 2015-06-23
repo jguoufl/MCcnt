@@ -19,7 +19,7 @@ hw=0.20;            % the optical phonon energy in eV
 tau_IR=1*1e15;    % the spontaneous IR emission time
 t_step=0.75*1e-15; % the time step in S
 qsup=0.001;   % super-particle charge in e
-Ntran=100; Nstdy=200;   % No. of transient and steady state time steps
+Ntran=500; Nstdy=500;   % No. of transient and steady state time steps
 
 %%%%% the grid for collecting carrier statistics
 Degflag=1;  % 1 for treating Pauli exclusion, 0 for not treating
