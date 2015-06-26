@@ -1,10 +1,10 @@
 %%%%%%%% inputs for the simulation %%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 global q kBT hbar
-global n t_step qsup Ntran Nstdy Degflag Balflag    % MC simulation parameters 
+global n Egh1 t_step qsup Ntran Nstdy Degflag Balflag    % MC simulation parameters 
 global Nkf Nxf                                      % E, k, and x grid
 
-global Evec ga_ap ga_op ga_tot hw tau_IR     % the output of rate.m
+global Evec ga_ap ga_op ga_tot ga_ii hw tau_IR     % the output of rate.m
 
 %%%%%% constants
 q=1.6e-19;
@@ -13,10 +13,13 @@ hbar=1.055e-34;
 
 %%%%%%%%%%%%% inputs %%%%%%%%%%%%%%
 n=25;                 % (n, 0) CNT
-lamda_ap=10*1e-9;   % acoustic phonon mfp at high energy.
+Egh1=0.42/(0.142*sqrt(3)*n/pi);       % half band gap
+
+lamda_ap=10000*1e-9;   % acoustic phonon mfp at high energy.
 lamda_op=10000*1e-9;   % optical phonon mfp at high energy
 hw=0.20;            % the optical phonon energy in eV
 tau_IR=1*1e15;    % the spontaneous IR emission time
+Sii0=1e14;  % in /s, impact ionization rate parameter
 t_step=0.75*1e-15; % the time step in S
 qsup=0.001;   % super-particle charge in e
 Ntran=500; Nstdy=500;   % No. of transient and steady state time steps

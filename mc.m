@@ -19,6 +19,19 @@ flags.IRflag=2;                                           % the velocity flag of
 flags.Degflag=Degflag;
 flags.Balflag=Balflag;
 
+%%%% conduction band Ec1 parameters
+Ec1=E1;   % The conduction band edge.
+mu_sc=0;                                             % the source Fermi level
+mu_dc=-Vd_bias;                                      % the drain Fermi level
+%%%%%% creat the energy mesh for carrier injection
+%%% For Ec&Ev calculations, map valence band by flipping upside down
+Eg_hyper=2*Egh1;  % hyperthetical bandgap
+%%% the valence band holes treated by flipping the energy
+Ev1=-(E1-Eg_hyper);
+mu_sv=-mu_sc;                                             % the source Fermi level
+mu_dv=-mu_dc;                                      % the drain Fermi level
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%% functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Ek=inline('Egh*(sqrt(1+(k./k0).^2)-1)','k','Egh','k0');
 % vE=inline('vF*sqrt(1-(1./(1+E./Egh)).^2)','E','Egh','vF');
@@ -27,7 +40,6 @@ kv=inline('k0*v./sqrt(vF^2-v.^2)','v','vF','k0');
 
 %%%%%%%%%%%%%% initialization %%%%%%%%%%%%%%%%%%
 k0=2/(3*dwire);
-Egh1=0.42/(dwire*1e9);                              % the half band gap
 kb=kE(max(Evec),Egh1,k0);                               % the boundary of k, [-kb, +kb]
 
 Nnode=length(E1);
@@ -44,11 +56,6 @@ kfd=linspace(-kb+dkf/2,kb-dkf/2,Nkf);               % kfd normalized by k0
 Npbin=2*2*(1/2/pi)*dxf*dkf/qsup;                    % the number of superparticle states in each x-k bin
 dE=10e-3;
 
-%%%% conduction band Ec1 parameters
-Ec1=E1;   % The conduction band edge.
-mu_sc=0;                                             % the source Fermi level
-mu_dc=-Vd_bias;                                      % the drain Fermi level
-%%%%%% creat the energy mesh for carrier injection
 Eminc=min(Ec1);
 Emaxc=max(Ec1)+20*kBT;
 Emeshc=(Eminc+dE/2):dE:Emaxc; NEmeshc=length(Emeshc);    % energy grid for J(E)
@@ -61,12 +68,7 @@ fdc=zeros(Nxf,Nkf);                                  % initial distribution
 sigmaNc=zeros(Nnode,1);                                % the number of particles summation
 Ektpc=[]; xpc=[]; vpc=[];      % initialize the output parameters
 
-%%%% Valence band Ev1 parameters
-Eg=0.0;  % hyperthetical bandgap
-%%% the valence band holes treated by flipping the energy
-Ev1=-(E1-Eg);
-mu_sv=-mu_sc;                                             % the source Fermi level
-mu_dv=-mu_dc;                                      % the drain Fermi level
+
 %%%%%% creat the energy mesh for carrier injection
 Eminv=min(Ev1);
 Emaxv=max(Ev1)+20*kBT;
@@ -87,7 +89,11 @@ tic
 for ii_t=1:(Ntran+Nstdy)
     %%%%%%%%%%%%%%%% conduction band Ec1
     %%%% treat free flight and scattering
-    [xpc vpc Ektpc]=scattering(XI, Ec1, flags, fdc, dwire, xpc, vpc, Ektpc);
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%
+    [xpc vpc Ektpc xpv vpv Ektpv]=scattering(XI, Ec1, flags, fdc, dwire,...
+        xpc, vpc, Ektpc,xpv, vpv, Ektpv);  
     %% treat carriers out to contacts
     [Eps_out Epd_out xpc vpc Ektpc]=outflow(Ec1,flags,xpc,vpc,Ektpc);    
     %%% treat carrier injection
@@ -105,7 +111,8 @@ for ii_t=1:(Ntran+Nstdy)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%%%%%%%%%%%%%%% valance band Ev1
     %%%% treat free flight and scattering
-    [xpv vpv Ektpv]=scattering(XI, Ev1, flags, fdv, dwire, xpv, vpv, Ektpv);
+    [xpv vpv Ektpv xpc vpc Ektpc]=scattering(XI, Ev1, flags, fdv, dwire,...
+        xpv, vpv, Ektpv,xpc, vpc, Ektpc);
     %% treat carriers out to contacts
     [Eps_out Epd_out xpv vpv Ektpv]=outflow(Ev1,flags,xpv,vpv,Ektpv);    
     %%% treat carrier injection
